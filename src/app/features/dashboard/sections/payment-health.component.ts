@@ -41,8 +41,8 @@ import { AedPipe } from '../../../shared/pipes/aed.pipe';
     </div>
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 18px 20px; }
-    .body { display: flex; align-items: center; flex-wrap: wrap; gap: clamp(16px, 3vw, 36px); flex: 1; min-width: 0; padding-inline-start: 8px; }
+    :host { display: flex; flex-direction: column; gap: 14px; padding: 18px 20px; }
+    .body { display: flex; align-items: center; gap: 36px; flex: 1; padding-left: 8px; }
     .summary { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .ring { width: 125px; height: 125px; margin-bottom: 14px; }
     .ring-val { font-size: 22px; font-weight: 700; fill: var(--mm-text-1); }
@@ -53,13 +53,13 @@ import { AedPipe } from '../../../shared/pipes/aed.pipe';
     .head { color: var(--mm-text-3); font-weight: 700; margin-bottom: 16px; }
     ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
     li { display: flex; align-items: center; gap: 10px; }
-    .name { flex: 0 0 min(140px, 38%); overflow-wrap: anywhere; font-size: 12.5px; color: var(--mm-text-2); }
+    .name { width: 140px; font-size: 12.5px; color: var(--mm-text-2); }
     .track { flex: 1; height: 7px; border-radius: 4px; background: var(--mm-canvas); overflow: hidden; }
     .fill { display: block; height: 100%; border-radius: 4px; background: var(--mm-danger-soft); }
     .fill.strong { background: var(--mm-danger); }
     li strong { width: 34px; text-align: right; font-size: 12.5px; }
-    @media (max-width: 900px) { :host { gap: 12px; padding: 16px; }.body { gap: 18px; }.ring { width: 112px; height: 112px; margin-bottom: 8px; }ul { gap: 12px; } }
-    @media (max-width: 599px) { .body { flex-direction: column; align-items: stretch; padding-inline-start: 0; }.summary { align-self: center; }.name { flex-basis: 38%; }.track { min-width: 24px; } }
+    @media (max-width: 599px) { .body { flex-direction: column; align-items: stretch; } }
+    @media (max-width: 900px) { :host { gap: 6px; padding: 9px 10px; border-radius: 10px; }.body { gap: 10px; }.ring { width: 100px; height: 100px; margin-bottom: 5px; }.failed { font-size: 9px; }.recover, .lbl { font-size: 7px; }.head { margin-bottom: 6px; font-size: 8px; }ul { gap: 6px; }.name { width: 80px; font-size: 8px; }.track { height: 4px; }li strong { width: 23px; font-size: 8px; } }
   `],
   host: { class: 'mm-card' },
 })

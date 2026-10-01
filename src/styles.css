@@ -620,21 +620,6 @@ html[dir="rtl"] .nav-children { padding-inline-start: 0; padding-inline-end: 30p
   .copilot-drawer { width: 100vw; }
 }
 
-@media (max-width: 767px) {
-  .content { padding: 16px 12px; }
-  .card__body { padding: 16px; }
-  .table-toolbar { align-items: stretch; }
-  .table-search { width: 100%; max-width: none; }
-  .table-footer { align-items: flex-start; }
-}
-
-@media (max-width: 600px) {
-  .form-grid { grid-template-columns: minmax(0, 1fr); }
-  .form-actions { align-items: stretch; }
-  .form-actions .btn { justify-content: center; }
-  .settings-summary .card { min-width: min(100%, 220px); }
-}
-
 /* ==========================================================================
    Motion & "wow factor" enhancements
    ========================================================================== */

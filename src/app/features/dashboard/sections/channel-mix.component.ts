@@ -45,23 +45,23 @@ import { IconComponent } from '../../../shared/ui/icon.component';
     }
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 18px 20px; }
-    .body { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(16px, 4vw, 48px); flex: 1; min-width: 0; }
+    :host { display: flex; flex-direction: column; gap: 14px; padding: 18px 20px; }
+    .body { display: flex; align-items: center; justify-content: center; gap: 48px; flex: 1; }
     .donut { width: 170px; height: 170px; flex: none; }
     .c-sub { font-size: 11px; fill: var(--mm-text-3); }
     .c-val { font-size: 16px; font-weight: 700; fill: var(--mm-text-1); }
-    .legend { list-style: none; margin: 0; padding: 0; width: min(250px, 100%); min-width: 0; display: grid; gap: 12px; }
+    .legend { list-style: none; margin: 0; padding: 0; width: 250px; display: grid; gap: 12px; }
     .legend li { display: flex; align-items: center; gap: 8px; }
     .legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-    .name { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 12.5px; font-weight: 500; }
+    .name { flex: 1; font-size: 12.5px; font-weight: 500; }
     .name small { display: block; font-size: 11px; font-weight: 400; color: var(--mm-text-3); }
     .legend strong { font-size: 13px; }
     .tip {
       display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: var(--mm-radius-md);
       background: var(--mm-brand-50); color: var(--mm-brand-700); font-size: 12px; font-weight: 500;
     }
-    @media (max-width: 900px) { :host { gap: 12px; padding: 16px; }.donut { width: 150px; height: 150px; }.legend { gap: 10px; }.tip { padding: 9px 11px; font-size: 12px; } }
-    @media (max-width: 599px) { .body { flex-direction: column; gap: 16px; }.donut { width: 144px; height: 144px; }.legend { width: 100%; } }
+    @media (max-width: 599px) { .body { flex-direction: column; gap: 20px; } .legend { width: 100%; } }
+    @media (max-width: 900px) { :host { gap: 6px; padding: 9px 10px; border-radius: 10px; }.body { gap: 10px; }.donut { width: 105px; height: 105px; }.legend { width: 170px; gap: 4px; }.name { font-size: 8px; }.name small { font-size: 7px; }.legend strong { font-size: 8px; }.tip { padding: 5px 7px; font-size: 8px; } }
   `],
   host: { class: 'mm-card' },
 })

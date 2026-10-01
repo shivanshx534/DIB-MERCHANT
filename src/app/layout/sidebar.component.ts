@@ -51,7 +51,7 @@ export const NAV_ITEMS: NavItem[] = [
             <a [routerLink]="item.children?.length ? null : (item.route || '/dashboard')" class="nav-item" [class.active]="item.id === active()"
               [attr.aria-current]="item.id === active() ? 'page' : null"
               [attr.aria-expanded]="item.children?.length ? isExpanded(item.id) : null"
-              (click)="item.children?.length ? toggleChildren($event, item.id) : null">
+              (click)="selectItem($event, item)">
               <mm-icon [name]="item.icon" [size]="18" />
               <span>{{ item.label }}</span>
               @if (item.hasChildren) {
@@ -147,5 +147,9 @@ export class SidebarComponent {
   toggleChildren(event: MouseEvent, id: string): void {
     event.preventDefault();
     this.expanded.update((current) => ({ ...current, [id]: !this.isExpanded(id) }));
+  }
+
+  selectItem(event: MouseEvent, item: NavItem): void {
+    if (item.children?.length) this.toggleChildren(event, item.id);
   }
 }

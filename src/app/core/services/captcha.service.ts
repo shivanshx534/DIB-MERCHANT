@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, map, of } from 'rxjs';
+import { Observable, defer, map } from 'rxjs';
 import * as forge from 'node-forge';
 import { environment } from '../../../environments/environment';
 import {
@@ -87,10 +87,6 @@ export class CaptchaService {
   }
 
   verifyOtp(request: VerifyOtpRequest): Observable<string> {
-    if (environment.allowDirectDashboard && /^\d{6}$/.test(request.otp ?? '')) {
-      return of('local-dashboard-token');
-    }
-
     return defer(() => fetch(
       `${environment.apiBaseUrl}/dib/pg/transaction/inbound/merchant/verifyOtp`,
       {

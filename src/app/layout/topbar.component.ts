@@ -72,16 +72,8 @@ import { IconComponent } from '../shared/ui/icon.component';
     .who { display: flex; flex-direction: column; line-height: 1.2; }
     .who strong { font-size: 13px; }
     .who span { font-size: 12px; color: var(--mm-text-3); }
-    @media (max-width: 1023px) { .menu-toggle { display: grid; } }
-    @media (max-width: 767px) { :host { padding: 0 12px; } .who { display: none; } .search { width: auto; max-width: none; flex: 1; min-width: 0; } }
-    @media (max-width: 560px) {
-      :host { height: auto; min-height: var(--mm-topbar-h); flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
-      .menu-toggle { order: 0; }
-      .actions { order: 1; gap: 6px; margin-inline-start: auto; }
-      .icon-btn { width: 34px; height: 34px; }
-      .avatar { width: 32px; height: 32px; }
-      .search { order: 2; flex: 1 0 100%; width: 100%; }
-    }
+    @media (max-width: 900px) { .menu-toggle { display: grid; } }
+    @media (max-width: 767px) { :host { padding: 0 16px; } .who { display: none; } .search { width: auto; max-width: none; flex: 1; min-width: 0; } }
   `],
 })
 export class TopbarComponent {

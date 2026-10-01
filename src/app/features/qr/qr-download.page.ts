@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IconComponent } from '../../shared/ui/icon.component';
-import { StaticQrEntry, QrService } from '../../core/services/qr.service';
+
+interface QrDownloadItem {
+  id: string;
+  storeName: string;
+}
 
 @Component({
   selector: 'app-qr-download-page',
@@ -16,28 +18,20 @@ import { StaticQrEntry, QrService } from '../../core/services/qr.service';
         <div class="title-wrap"><div class="title-icon"><mm-icon name="qr" [size]="23" /></div><h1>QR - Download</h1></div>
       </header>
 
-      @if (loading) {
-        <div class="state">Loading QR codes...</div>
-      } @else if (error) {
-        <div class="state error">{{ error }}</div>
-      } @else {
-        <section class="qr-grid">
-          @for (item of items; track item.terminalId) {
-            <article class="qr-card">
-              <div class="qr-code" [attr.aria-label]="'QR code for ' + item.terminalId">
-                @if (item.imageUrl) {
-                  <img [src]="item.imageUrl" [alt]="'QR code for ' + item.terminalId" />
-                }
-              </div>
-              <strong class="terminal-id">{{ item.terminalId }}</strong>
-              <span class="store-name">{{ item.storeName }}</span>
-              <button type="button" class="download" (click)="download(item)">
-                <mm-icon name="download" [size]="17" /> Download
-              </button>
-            </article>
-          }
-        </section>
-      }
+      <section class="qr-grid">
+        @for (item of items; track item.id) {
+          <article class="qr-card">
+            <div class="qr-code" [attr.aria-label]="'QR code for ' + item.id">
+              <span></span>
+            </div>
+            <strong class="terminal-id">{{ item.id }}</strong>
+            <span class="store-name">{{ item.storeName }}</span>
+            <button type="button" class="download" (click)="download(item)">
+              <mm-icon name="download" [size]="17" /> Download
+            </button>
+          </article>
+        }
+      </section>
     </section>
   `,
   styles: [`
@@ -46,86 +40,25 @@ import { StaticQrEntry, QrService } from '../../core/services/qr.service';
     .breadcrumb { padding: 0 0 7px; color: var(--mm-text-3); font-size: 12px; }.breadcrumb span { padding: 0 4px; color: var(--mm-brand-600); }.breadcrumb strong { color: #0879d1; }
     .page-header { display: flex; align-items: center; padding: 0 0 18px; }.title-wrap { display: flex; align-items: center; gap: 14px; }.title-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 11px; background: #e6f3fb; color: #0879d1; } h1 { margin: 0; color: #182433; font-size: 24px; }
     .qr-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }.qr-card { display: flex; min-height: 356px; align-items: center; flex-direction: column; padding: 28px 18px 24px; background: #fff; border: 1px solid #e0e7ee; border-radius: 16px; box-shadow: 0 1px 3px rgba(16, 24, 40, .05); }
-    .qr-code { position: relative; display: grid; place-items: center; width: 164px; height: 164px; margin: 0 0 17px; background: #fff; border: 7px solid #fff; box-shadow: 0 0 0 1px #e5e9ef; overflow: hidden; }
-    .qr-code img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .qr-code { position: relative; display: grid; place-items: center; width: 164px; height: 164px; margin: 0 0 17px; background-color: #fff; background-image: linear-gradient(45deg, #45505d 25%, transparent 25%, transparent 75%, #45505d 75%), linear-gradient(45deg, #45505d 25%, transparent 25%, transparent 75%, #45505d 75%); background-position: 0 0, 8px 8px; background-size: 16px 16px; border: 7px solid #fff; box-shadow: 0 0 0 1px #e5e9ef; }
+    .qr-code::before, .qr-code::after, .qr-code span { position: absolute; width: 35px; height: 35px; border: 7px solid #45505d; background: #fff; content: ''; }.qr-code::before { top: 7px; left: 7px; }.qr-code::after { top: 7px; right: 7px; }.qr-code span { bottom: 7px; left: 7px; }
     .terminal-id { color: #182433; font-size: 16px; }.store-name { margin-top: 4px; color: #748299; font-size: 13px; text-align: center; }.download { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; margin-top: 16px; padding: 0 18px; border: 0; border-radius: 22px; background: #AD0B43 !important; color: #fff !important; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }.download:hover { background: #920938 !important; }
-    .state { padding: 20px 10px; color: var(--mm-text-2); }
-    .state.error { color: var(--mm-danger-text); }
     @media (max-width: 900px) { .qr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 600px) { .page { padding: 0 16px 20px; }.qr-grid { grid-template-columns: 1fr; }.qr-card { min-height: 330px; } }
-    @media (max-width: 420px) { .page { padding-inline: 12px; }.qr-card { padding-inline: 14px; }.qr-code { width: min(164px, 68vw); height: auto; aspect-ratio: 1; } }
   `],
 })
-export class QrDownloadPage implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly qrService = inject(QrService);
-  private readonly changeDetector = inject(ChangeDetectorRef);
-  private readonly platformId = inject(PLATFORM_ID);
-  protected items: Array<StaticQrEntry & { imageUrl?: string }> = [];
-  protected loading = true;
-  protected error = '';
+export class QrDownloadPage {
+  protected readonly items: QrDownloadItem[] = [
+    { id: 'TID10029931', storeName: 'DemoAanipayMerchant' },
+    { id: 'TID10029932', storeName: 'DemoAanipayMerchant - Branch 2' },
+    { id: 'TID10029933', storeName: 'DemoAanipayMerchant - Branch 3' },
+  ];
 
-  ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      this.loading = false;
-      return;
-    }
-
-    const terminalId = this.route.snapshot.queryParamMap.get('terminalId') ?? '00449936';
-    const storeId = this.route.snapshot.queryParamMap.get('storeId') ?? '00449936';
-    const merchantId = this.route.snapshot.queryParamMap.get('merchantId') ?? '00449936';
-
-    this.qrService.listStaticQr(merchantId).subscribe({
-      next: (entries) => {
-        const list = entries.length ? entries : [{ terminalId, storeName: 'Current Terminal', merchantId, storeId }];
-        this.items = list.map((item) => ({ ...item, imageUrl: '' }));
-
-        this.items.forEach((item, index) => {
-          this.qrService.viewStaticQr(item.terminalId, item.storeId || storeId, item.merchantId || merchantId).subscribe({
-            next: (imageUrl) => {
-              this.items[index] = { ...this.items[index], imageUrl };
-              this.changeDetector.markForCheck();
-            },
-            error: () => {
-              this.items[index] = { ...this.items[index], imageUrl: '' };
-              this.changeDetector.markForCheck();
-            },
-          });
-        });
-
-        this.loading = false;
-        this.changeDetector.markForCheck();
-      },
-      error: () => {
-        this.error = 'Unable to load QR codes right now.';
-        this.loading = false;
-        this.changeDetector.markForCheck();
-      },
-    });
-  }
-
-  download(item: StaticQrEntry & { imageUrl?: string }): void {
-    const terminalId = item.terminalId;
-    const storeId = item.storeId || '00449936';
-    const merchantId = item.merchantId || '00449936';
-
-    this.qrService.downloadStaticQr(terminalId, storeId, merchantId).subscribe({
-      next: (blob) => {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${terminalId}-qr.png`;
-        link.click();
-        URL.revokeObjectURL(url);
-      },
-      error: () => {
-        if (item.imageUrl) {
-          const link = document.createElement('a');
-          link.href = item.imageUrl;
-          link.download = `${terminalId}-qr.png`;
-          link.click();
-        }
-      },
-    });
+  download(item: QrDownloadItem): void {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" fill="white"/><path fill="#45505d" d="M32 32h128v128H32zM352 32h128v128H352zM32 352h128v128H32zM192 32h32v32h-32zM256 32h32v64h-32zM192 96h64v32h-64zM192 160h32v64h-32zM256 160h32v32h-32zM320 192h32v64h-32zM384 192h64v32h-64zM192 288h64v32h-64zM288 288h32v64h-32zM352 288h32v32h-32zM416 288h64v32h-64zM192 384h32v64h-32zM256 384h64v32h-64zM352 384h32v64h-32zM416 416h64v32h-64z"/></svg>`;
+    const link = document.createElement('a');
+    link.href = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    link.download = `${item.id}-qr.svg`;
+    link.click();
   }
 }

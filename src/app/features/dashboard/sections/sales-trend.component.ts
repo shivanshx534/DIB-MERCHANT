@@ -83,7 +83,7 @@ type Metric = 'net' | 'txns' | 'ticket';
   styles: [`
     :host { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; }
     figure { margin: 0; }
-    .scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+    .scroll { overflow-x: auto; }
     svg { width: 100%; min-width: 640px; height: auto; display: block; overflow: visible; }
     .grid { stroke: var(--mm-border); }
     .axis { font-size: 11px; fill: var(--mm-text-3); }
@@ -99,12 +99,12 @@ type Metric = 'net' | 'txns' | 'ticket';
     .tip-delta { font-size: 11px; font-weight: 600; fill: var(--mm-brand-accent); }
     .spike-pill { fill: var(--mm-danger-bg); }
     .spike-text { font-size: 10.5px; font-weight: 600; fill: var(--mm-danger-text); }
-    .legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 8px; font-size: 12px; font-weight: 500; color: var(--mm-text-2); }
+    .legend { display: flex; justify-content: center; gap: 20px; margin-top: 8px; font-size: 12px; font-weight: 500; color: var(--mm-text-2); }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
     .sw { display: inline-block; width: 18px; height: 0; border-top: 2.5px solid var(--mm-brand-600); }
     .sw.prev { border-top: 2px dashed var(--mm-chart-prev); }
     .sw.ref { width: 12px; height: 10px; border: 0; border-radius: 2px; background: var(--mm-danger); opacity: .5; }
-    @media (max-width: 900px) { :host { gap: 12px; padding: 16px; }.legend { justify-content: flex-start; gap: 10px 16px; } }
+    @media (max-width: 900px) { :host { gap: 5px; padding: 9px 10px; border-radius: 10px; }.scroll svg { min-width: 0; }.legend { gap: 8px; margin-top: 2px; font-size: 8px; } }
   `],
   host: { class: 'mm-card' },
 })

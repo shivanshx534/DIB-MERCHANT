@@ -73,7 +73,7 @@ type Filter = 'all' | 'failed' | 'refunded';
     </footer>
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 18px 20px 12px; }
+    :host { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 12px; }
     .tools { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
     .tools a { font-size: 13px; }
     .count { margin-left: 2px; padding: 1px 6px; border-radius: 999px; background: var(--mm-neutral-bg); font-size: 10.5px; font-weight: 600; }
@@ -103,7 +103,7 @@ type Filter = 'all' | 'failed' | 'refunded';
     .cust { display: flex; align-items: center; gap: 10px; }
     .kind { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--mm-canvas); color: var(--mm-text-2); }
     .empty { text-align: center; padding: 24px; color: var(--mm-text-3); }
-    footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 16px; padding: 6px 12px 0; font-size: 12px; color: var(--mm-text-3); }
+    footer { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px 0; font-size: 12px; color: var(--mm-text-3); }
     footer a { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; }
     @media (max-width: 1023px) { .c-chan { display: none; } }
     @media (max-width: 767px) { .c-time, .c-stat { display: none; } .tools { flex-wrap: wrap; } }

@@ -5,6 +5,7 @@ import { DashboardPage } from './features/dashboard/dashboard.page';
 import { InvoicesPage } from './features/invoices/invoices.page';
 import { QrTerminalPage } from './features/qr/qr-terminal.page';
 import { QrDownloadPage } from './features/qr/qr-download.page';
+import { CopilotPage } from './features/copilot/copilot.page';
 
 export const routes: Routes = [
 	{ path: '', component: LoginComponent },
@@ -13,6 +14,7 @@ export const routes: Routes = [
 		component: DashboardComponent,
 		children: [
 			{ path: '', component: DashboardPage },
+			{ path: 'copilot', component: CopilotPage },
 			{ path: 'invoices', component: InvoicesPage },
 			{ path: 'qr-code', component: QrTerminalPage },
 			{ path: 'qr-download', component: QrDownloadPage },

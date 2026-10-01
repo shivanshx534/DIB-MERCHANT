@@ -40,19 +40,6 @@ import { IconComponent } from '../../../shared/ui/icon.component';
       border: 1px solid var(--mm-border); border-radius: var(--mm-radius-md); background: var(--mm-surface);
       font-size: 13px; font-weight: 500; color: var(--mm-text-2);
     }
-    @media (max-width: 767px) {
-      :host { align-items: flex-start; }
-      .greeting { min-width: 0; width: 100%; }
-      .date { line-height: 1.45; }
-      .controls { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
-      .period { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
-      .period button { min-width: 0; justify-content: center; padding: 8px 5px; }
-      .compare { justify-content: center; white-space: nowrap; }
-    }
-    @media (max-width: 420px) {
-      .controls { grid-template-columns: 1fr; }
-      .compare { justify-content: space-between; }
-    }
   `],
 })
 export class PageHeaderComponent {

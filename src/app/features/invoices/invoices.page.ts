@@ -132,15 +132,6 @@ import { IconComponent } from '../../shared/ui/icon.component';
     .status.sent { background: var(--mm-warning-bg); color: var(--mm-warning-text); }
     .empty { padding: 40px; color: var(--mm-text-3); text-align: center; }
     @media (max-width: 767px) { .page { padding: 20px 16px; } .page-header { flex-direction: column; } }
-    @media (max-width: 420px) {
-      .page { padding-inline: 12px; }
-      .invoice-card { border-radius: 10px; }
-      .tabs { padding: 18px 12px 0; }
-      .toolbar, .table-footer { padding-inline: 12px; }
-      .create-card { padding-inline: 12px; }
-      .form-actions { flex-direction: column; }
-      .form-actions button { width: 100%; justify-content: center; }
-    }
   `],
 })
 export class InvoicesPage {

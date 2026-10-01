@@ -5,10 +5,13 @@ import { Period } from '../../core/models/dashboard.models';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { PageHeaderComponent } from './sections/page-header.component';
 import { WelcomeBannerComponent } from './sections/welcome-banner.component';
+import { AttentionListComponent } from './sections/attention-list.component';
+import { CopilotPanelComponent } from './sections/copilot-panel.component';
 import { SalesTrendComponent } from './sections/sales-trend.component';
 import { ChannelMixComponent } from './sections/channel-mix.component';
 import { PaymentHealthComponent } from './sections/payment-health.component';
 import { RecentTransactionsComponent } from './sections/recent-transactions.component';
+import { CopilotUiService } from '../../core/services/copilot-ui.service';
 
 /**
  * Merchant dashboard (Figma: "Dashboard v2 — Merchant cockpit", node 2133:14).
@@ -18,7 +21,8 @@ import { RecentTransactionsComponent } from './sections/recent-transactions.comp
   selector: 'mm-dashboard-page',
   standalone: true,
   imports: [
-    PageHeaderComponent, WelcomeBannerComponent, SalesTrendComponent,
+    PageHeaderComponent, WelcomeBannerComponent,
+    AttentionListComponent, CopilotPanelComponent, SalesTrendComponent,
     ChannelMixComponent, PaymentHealthComponent, RecentTransactionsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +45,15 @@ import { RecentTransactionsComponent } from './sections/recent-transactions.comp
       <div class="row halves">
         <mm-channel-mix [channels]="d.channels" [paymentsCount]="d.settlement.paymentsCount" />
         <mm-payment-health [health]="d.health" />
+      </div>
+
+      <div class="row two-one">
+        <mm-attention-list [items]="d.attention" />
+        <mm-copilot-panel
+          [insights]="d.insights"
+          (openCopilot)="openCopilot()"
+          (ask)="openCopilot($event)"
+        />
       </div>
 
       <mm-recent-transactions [transactions]="d.transactions" [total]="d.transactionsTotal" [counts]="d.counts" />
@@ -71,6 +84,7 @@ import { RecentTransactionsComponent } from './sections/recent-transactions.comp
 })
 export class DashboardPage {
   private readonly api = inject(DashboardService);
+  private readonly copilotUi = inject(CopilotUiService);
 
   protected readonly period = signal<Period>('today');
   protected readonly showWelcome = signal(true);
@@ -78,5 +92,9 @@ export class DashboardPage {
   protected readonly data = toSignal(
     toObservable(this.period).pipe(switchMap((p) => this.api.getDashboard(p))),
   );
+
+  openCopilot(question?: string): void {
+    this.copilotUi.open(question);
+  }
 
 }
